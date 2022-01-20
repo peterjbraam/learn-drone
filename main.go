@@ -1,20 +1,24 @@
 package main
-
+ 
 import (
-   "log"
-   "net/http"
+    "fmt"
+    "log"
+    "net/http"
 )
-
-type Server struct{}
-
-func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-   w.WriteHeader(http.StatusOK)
-   w.Header().Set("Content-Type", "application/json")
-   w.Write([]byte(`{"message": "hello world"}`))
-}
-
+ 
 func main() {
-   s := &Server{}
-   http.Handle("/", s)
-   log.Fatal(http.ListenAndServe(":8080", nil))
+ 
+    // API routes
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Hello world from GfG")
+    })
+    http.HandleFunc("/hi", func(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Hi")
+    })
+ 
+    port := ":5001"
+    fmt.Println("Server is running on port" + port)
+ 
+    // Start server on port specified above
+    log.Fatal(http.ListenAndServe(port, nil))
 }
